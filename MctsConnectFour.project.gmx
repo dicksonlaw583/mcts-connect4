@@ -118,7 +118,9 @@
     <scripts name="Connect4">
       <scripts name="test">
         <script>scripts\connect4_test.gml</script>
+        <script>scripts\connect4_test_generate_state.gml</script>
       </scripts>
+      <script>scripts\connect4_generate_state.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
