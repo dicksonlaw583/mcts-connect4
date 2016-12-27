@@ -29,8 +29,7 @@
 {
   player_wins = 0;
   computer_wins = 0;
-  // TODO: Finish this
-  /* mcts_type = MctsType(
+  mcts_type = MctsType(
     connect4_generate_state,
     connect4_generate_moves,
     connect4_apply_move,
@@ -38,7 +37,7 @@
     connect4_serialize,
     connect4_deserialize,
     undefined
-  ); */
+  );
   ellipsis_animate = 0;
   ellipsis_animate_speed = 3/room_speed;
   event_user(0);
@@ -67,11 +66,9 @@
             <kind>1</kind>
             <string>///Allocate time for the AI if it's the computer's turn
 {
-  if (/*state[9] != player_symbol &amp;&amp; */is_undefined(game_outcome) &amp;&amp; !global.animating) {
+  if (state[42] != player_colour &amp;&amp; is_undefined(game_outcome) &amp;&amp; !global.animating) {
     // Give half the step's length or the total allowed evaluation time, whichever is less
     var time_slice = min((1000/room_speed)/2, global.mcts_time);
-    // TODO: Finish this
-    /*
     // Initialize the MCTS AI if it isn't set up yet
     if (is_undefined(mcts_tree)) {
       mcts_tree = MctsTree(mcts_type, state,
@@ -95,12 +92,19 @@
     if (mcts_time_elapsed &gt; global.mcts_time) {
       var best_move = mcts_tree_get_best_move(mcts_tree);
       connect4_apply_move(state, best_move);
-      // Create the symbol on the board as a visual
-      if (player_symbol == 1) {
-        symbol_instances[best_move] = instance_create(480+160*(best_move mod 3), 200+160*(best_move div 3), obj_x);
+      // Find where the piece will end up
+      var vertical_offset = 0,
+          state_offset = best_move;
+      while (state[state_offset] == 0 &amp;&amp; state_offset &lt; 42) {
+        vertical_offset++;
+        state_offset += 7;
+      }
+      // Create the piece on the board as a visual
+      if (player_colour == 1) {
+        colour_instances[best_move+7*vertical_offset] = instance_create(395+35+70*best_move, 150+35+70*vertical_offset, obj_red);
       }
       else {
-        symbol_instances[best_move] = instance_create(480+160*(best_move mod 3), 200+160*(best_move div 3), obj_o);
+        colour_instances[best_move+7*vertical_offset] = instance_create(395+35+70*best_move, 150+35+70*vertical_offset, obj_yellow);
       }
       // Reset the MCTS AI
       mcts_time_elapsed = 0;
@@ -109,7 +113,6 @@
       // Check for wins
       event_user(1);
     }
-    */
   }
 }
 </string>
@@ -132,16 +135,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Play a sound and animate symbols if the game is done (i.e. game finished and all animations are settled)
+            <string>///Play a sound and animate colours if the game is done (i.e. game finished and all animations are settled)
 {
   if (!(game_done || is_undefined(game_outcome) || global.animating)) {
-    // TODO: Finish this
-    /*
     // Play the right sound and increment score
-    if (game_outcome == 0) {
+    if (game_outcome[0] == 0) {
       audio_play_sound(snd_draw, 1, false);
     }
-    else if (game_outcome == player_symbol) {
+    else if (game_outcome[0] == player_colour) {
       audio_play_sound(snd_win, 1, false);
       player_wins++;
     }
@@ -149,41 +150,13 @@
       audio_play_sound(snd_lose, 1, false);
       computer_wins++;
     }
-    // Animate symbols if someone won
-    if (game_outcome != 0) {
-      var animates;
-      // Rows
-      if (state[@ 0] == state[@ 1] &amp;&amp; state[@ 0] == state[@ 2] &amp;&amp; state[@ 0] != 0) {
-        animates[0] = 0; animates[1] = 1; animates[2] = 2;
-      }
-      if (state[@ 3] == state[@ 4] &amp;&amp; state[@ 3] == state[@ 5] &amp;&amp; state[@ 3] != 0) {
-        animates[0] = 3; animates[1] = 4; animates[2] = 5;
-      }
-      if (state[@ 6] == state[@ 7] &amp;&amp; state[@ 6] == state[@ 8] &amp;&amp; state[@ 6] != 0) {
-        animates[0] = 6; animates[1] = 7; animates[2] = 8;
-      }
-      // Columns
-      if (state[@ 0] == state[@ 3] &amp;&amp; state[@ 0] == state[@ 6] &amp;&amp; state[@ 0] != 0) {
-        animates[0] = 0; animates[1] = 3; animates[2] = 6;
-      }
-      if (state[@ 1] == state[@ 4] &amp;&amp; state[@ 1] == state[@ 7] &amp;&amp; state[@ 1] != 0) {
-        animates[0] = 1; animates[1] = 4; animates[2] = 7;
-      }
-      if (state[@ 2] == state[@ 5] &amp;&amp; state[@ 2] == state[@ 8] &amp;&amp; state[@ 2] != 0) {
-        animates[0] = 2; animates[1] = 5; animates[2] = 8;
-      }
-      // Diagonals
-      if (state[@ 0] == state[@ 4] &amp;&amp; state[@ 0] == state[@ 8] &amp;&amp; state[@ 0] != 0) {
-        animates[0] = 0; animates[1] = 4; animates[2] = 8;
-      }
-      if (state[@ 2] == state[@ 4] &amp;&amp; state[@ 2] == state[@ 6] &amp;&amp; state[@ 2] != 0) {
-        animates[0] = 2; animates[1] = 4; animates[2] = 6;
-      }
+    // Animate pieces if someone won
+    if (game_outcome[0] != 0) {
       // Animate them
-      for (var i = 0; i &lt; 3; i++) {
-        with (symbol_instances[animates[i]]) event_user(1);
+      for (var i = 1; i &lt;= 4; i++) {
+        with (colour_instances[game_outcome[i]]) event_user(1);
       }
-    }*/
+    }
     // Mark game as done
     game_done = true;
   }
@@ -212,28 +185,31 @@
             <kind>1</kind>
             <string>///Accept plays from the player
 {
-  if (/*state[9] == player_symbol &amp;&amp; */is_undefined(game_outcome) &amp;&amp; !global.animating) {
-    // TODO: Finish this
-    /*
-    var cellx = (mouse_x-400) div 160,
-        celly = (mouse_y-120) div 160;
+  if (state[42] == player_colour &amp;&amp; is_undefined(game_outcome) &amp;&amp; !global.animating) {
+    var cellx = (mouse_x-395) div 70;
     // Don't accept input outside the board
-    if (cellx &gt;= 0 &amp;&amp; cellx &lt;= 2 &amp;&amp; celly &gt;= 0 &amp;&amp; celly &lt;= 2) {
-      var move = celly*3+cellx;
+    if (cellx &gt;= 0 &amp;&amp; cellx &lt;= 6) {
+      var move = cellx;
       // Accept legal moves only
       if (connect4_apply_move(state, move)) {
-        // Add the right symbol to the board as a visual
-        if (player_symbol == 1) {
-          symbol_instances[move] = instance_create(480+160*cellx, 200+160*celly, obj_o);
+        // Find where the piece will end up
+        var vertical_offset = 0,
+            state_offset = move;
+        while (state[state_offset] == 0 &amp;&amp; state_offset &lt; 42) {
+          vertical_offset++;
+          state_offset += 7;
+        }
+        // Add the right piece to the board as a visual
+        if (player_colour == 1) {
+          colour_instances[move+7*vertical_offset] = instance_create(395+35+70*move, 150+35+70*vertical_offset, obj_yellow);
         }
         else {
-          symbol_instances[move] = instance_create(480+160*cellx, 200+160*celly, obj_x);
+          colour_instances[move+7*vertical_offset] = instance_create(395+35+70*move, 150+35+70*vertical_offset, obj_red);
         }
         // Check for wins
         event_user(1);
       }
     }
-    */
   }
 }
 </string>
@@ -259,12 +235,9 @@
             <string>///Let the player restart the game if it's done by clicking the board
 {
   if (game_done) {
-    // TODO: Finish this when the board is done
-    /*
-    if (mouse_x &gt;= 400 &amp;&amp; mouse_x &lt;= 400+160*3 &amp;&amp; mouse_y &gt;= 120 &amp;&amp; mouse_y &lt;= 120+160*3) {
+    if (mouse_x &gt;= 395 &amp;&amp; mouse_x &lt;= 395+70*7 &amp;&amp; mouse_y &gt;= 150 &amp;&amp; mouse_y &lt;= 150+70*6) {
       event_user(0);
     }
-    */
   }
 }
 </string>
@@ -291,10 +264,7 @@
             <kind>1</kind>
             <string>///Check wins
 {
-  // TODO: Finish this
-  /*
   game_outcome = connect4_final_playout(state);
-  */
 }
 </string>
           </argument>
@@ -321,13 +291,14 @@
             <string>///Generate new game
 {
   // TODO: Finish this
-  /*
   // Remove old visuals
-  with (pobj_board_symbol) instance_destroy();
+  with (pobj_board_piece) instance_destroy();
   // Start new board
-  state = Array(0, 0, 0, 0, 0, 0, 0, 0, 0, choose(-1, 1));
-  symbol_instances = Array(noone, noone, noone, noone, noone, noone, noone, noone, noone);
-  */
+  state[42] = choose(-1, 1);
+  for (var i = 0; i &lt; 42; i++) {
+    state[i] = 0;
+    colour_instances[i] = noone;
+  }
   player_colour = choose(-1, 1);
   game_outcome = undefined;
   game_done = false;
@@ -374,18 +345,16 @@
   }
   // Draw status only if no animations are going on
   if (!global.animating) {
-    draw_text(192, 192+64+160+100, "Your move");
     if (is_undefined(game_outcome)) {
-      // TODO: Finish this
-      /*if (player_colour == state[9]) {
+      if (player_colour == state[42]) {
         draw_text(192, 192+64+160+100, "Your move");
-      }*/
+      }
     }
     else {
-      if (game_outcome == 0) {
+      if (game_outcome[0] == 0) {
         draw_text(192, 192+64+160+100, "DRAW");
       }
-      else if (game_outcome == player_colour) {
+      else if (game_outcome[0] == player_colour) {
         draw_text(192, 192+64+160+100, "WINNER");
       }
       else {
@@ -405,16 +374,15 @@
   // Draw status only if no animations are going on
   if (!global.animating) {
     if (is_undefined(game_outcome)) {
-      // TODO: Finish this
-      /*if (player_colour != state[9]) {
+      if (player_colour != state[42]) {
         draw_text(room_width-192, 192+64+160+100, "Thinking" + string_repeat(".", round(ellipsis_animate)));
-      }*/
+      }
     }
     else {
-      if (game_outcome == 0) {
+      if (game_outcome[0] == 0) {
         draw_text(room_width-192, 192+64+160+100, "DRAW");
       }
-      else if (game_outcome != player_colour) {
+      else if (game_outcome[0] != player_colour) {
         draw_text(room_width-192, 192+64+160+100, "WINNER");
       }
       else {
