@@ -9,6 +9,7 @@
       <sound>sound\snd_win</sound>
       <sound>sound\snd_lose</sound>
       <sound>sound\snd_draw</sound>
+      <sound>sound\snd_insert</sound>
     </sounds>
     <sounds name="System">
       <sound>sound\snd_click</sound>
@@ -26,7 +27,9 @@
       <sprite>sprites\spr_quit</sprite>
     </sprites>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\bg_board</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <scripts name="GMAssert">
@@ -146,6 +149,9 @@
     <objects name="Game">
       <object>objects\obj_controller</object>
       <object>objects\obj_button_return</object>
+      <object>objects\pobj_board_piece</object>
+      <object>objects\obj_yellow</object>
+      <object>objects\obj_red</object>
     </objects>
     <objects name="Menu">
       <object>objects\obj_title</object>
