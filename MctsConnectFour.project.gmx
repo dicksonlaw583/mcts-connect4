@@ -127,13 +127,25 @@
         <script>scripts\connect4_test_apply_move.gml</script>
         <script>scripts\connect4_test_serialize.gml</script>
         <script>scripts\connect4_test_deserialize.gml</script>
+        <script>scripts\connect4_test_select.gml</script>
+        <script>scripts\connect4_test_expand.gml</script>
+        <script>scripts\connect4_test_reweight.gml</script>
+        <script>scripts\connect4_test_playout.gml</script>
+        <script>scripts\connect4_test_tentative_playout.gml</script>
+        <script>scripts\connect4_test_interpret_playout.gml</script>
       </scripts>
       <script>scripts\connect4_generate_state.gml</script>
       <script>scripts\connect4_generate_moves.gml</script>
       <script>scripts\connect4_final_playout.gml</script>
       <script>scripts\connect4_apply_move.gml</script>
+      <script>scripts\connect4_tentative_playout.gml</script>
       <script>scripts\connect4_serialize.gml</script>
       <script>scripts\connect4_deserialize.gml</script>
+      <script>scripts\connect4_select.gml</script>
+      <script>scripts\connect4_expand.gml</script>
+      <script>scripts\connect4_reweight.gml</script>
+      <script>scripts\connect4_playout.gml</script>
+      <script>scripts\connect4_interpret_playout.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">

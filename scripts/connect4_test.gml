@@ -7,5 +7,11 @@
   connect4_test_apply_move();
   connect4_test_serialize();
   connect4_test_deserialize();
+  connect4_test_select();
+  connect4_test_expand();
+  connect4_test_reweight();
+  connect4_test_playout();
+  connect4_test_tentative_playout();
+  connect4_test_interpret_playout();
   show_debug_message("Connect 4 tests completed in " + string(current_time-start_time) + "ms.");
 }
