@@ -28,8 +28,8 @@
             <string>///Setup
 {
   // Minimum and maximum value
-  _min = 250;
-  _max = 2500;
+  _min = 50;
+  _max = 1000;
   // Minimum and maximum on-screen x
   _minx = room_width/2-254;
   _maxx = room_width/2+255;
