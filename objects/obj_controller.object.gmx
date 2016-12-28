@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>///Setup
 {
+  player_colour = choose(-1, 1);
   player_wins = 0;
   computer_wins = 0;
   mcts_type = MctsType(
@@ -188,7 +189,7 @@
   if (state[42] == player_colour &amp;&amp; is_undefined(game_outcome) &amp;&amp; !global.animating) {
     var cellx = (mouse_x-395) div 70;
     // Don't accept input outside the board
-    if (cellx &gt;= 0 &amp;&amp; cellx &lt;= 6) {
+    if (cellx &gt;= 0 &amp;&amp; cellx &lt;= 6 &amp;&amp; mouse_y &gt;= 150 &amp;&amp; mouse_y &lt;= 570) {
       var move = cellx;
       // Accept legal moves only
       if (connect4_apply_move(state, move)) {
@@ -290,7 +291,6 @@
             <kind>1</kind>
             <string>///Generate new game
 {
-  // TODO: Finish this
   // Remove old visuals
   with (pobj_board_piece) instance_destroy();
   // Start new board
@@ -299,7 +299,6 @@
     state[i] = 0;
     colour_instances[i] = noone;
   }
-  player_colour = choose(-1, 1);
   game_outcome = undefined;
   game_done = false;
   mcts_tree = undefined;
