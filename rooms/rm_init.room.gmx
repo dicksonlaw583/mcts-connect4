@@ -11,8 +11,15 @@
   <colour>0</colour>
   <showcolour>-1</showcolour>
   <code>{
+  //Seed the PRNG
+  randomize();
   //Self-test
   connect4_test();
+  //Set up background decor
+  var times = irandom_range(15, 20);
+  repeat (times) {
+    instance_create(irandom(room_width), irandom(room_height), obj_background_symbol);
+  }
   //Global variables
   ini_open(working_directory + "settings.ini");
   global.mcts_time = ini_read_real("config", "mcts_time", 250); // Time allowed for the MCTS AI to think per move
@@ -61,9 +68,7 @@
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
-  <instances>
-    <instance objName="obj_background_generator" x="32" y="32" name="inst_88B43F8A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-  </instances>
+  <instances/>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>
